@@ -161,6 +161,44 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ........fdddddf.fdddddf11f......
 .........fffff...fffff.ff.......
 `;
+            case "image3":
+            case "hero":return img`
+. . . . . . f f f f . . . . . . 
+. . . . f f f d d f f f . . . . 
+. . . f f f d d d d f f f . . . 
+. . f f f d d d d d d f f f . . 
+. . f f d d d d d d d d d f . . 
+. . f d d f f f f f f d d f . . 
+. . f f f f d d d d f f f f . . 
+. f f d f d f 1 1 f d f d f f . 
+. f d d 1 1 f 1 1 f 1 1 d d f . 
+. . f d 1 1 1 1 1 1 1 1 d f . . 
+. . . f d 1 1 1 1 1 1 d f . . . 
+. . d d f d d d d d d f d d . . 
+. . d 1 f d d d d d d f 1 d . . 
+. . d d f d d d d d d f d d . . 
+. . . . . f f f f f f . . . . . 
+. . . . . f f . . f f . . . . . 
+`;
+            case "image4":
+            case "life":return img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . f f f f f . f f f f f . . 
+. . f f 2 2 2 f f f 2 2 2 f f . 
+. . f 2 2 2 2 2 f 2 2 2 2 2 f . 
+. . f 2 2 2 2 2 2 2 1 1 2 2 f . 
+. . f 2 2 2 2 2 2 2 1 1 2 2 f . 
+. . f 2 2 2 2 2 2 2 2 2 2 2 f . 
+. . f f 2 2 2 2 2 2 2 2 2 f f . 
+. . . f f 2 2 2 2 2 2 2 f f . . 
+. . . . f f 2 2 2 2 2 f f . . . 
+. . . . . f f 2 2 2 f f . . . . 
+. . . . . . f f 2 f f . . . . . 
+. . . . . . . f f f . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`;
         }
         return null;
     })

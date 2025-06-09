@@ -9,6 +9,16 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "player"
     },
+    "image3": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAPAPAAAAAPD///3Q3QAA/9/f3d/RAPD/3f8R/f8A8N/93xHR3f//3f39H9Hd/9/d/R0R0d0P3939HRHR3Q//3f39H9Hd//Df/d8R0d3/8P/d/xH9/wAA/93f3d/RAADw///90N0AAAAA8A8AAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "hero"
+    },
+    "image4": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAPD//w8AAAAA/yIi/wAAAAAvIiLyDwAAAC8iIiL/AAAALyIiIvIPAAD/IiIiIv8AAPAvIiIi8gAA/yIiIiL/AAAvEiEi8g8AAC8SISL/AAAALyIi8g8AAAD/IiL/AAAAAPD//w8AAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "life"
+    },
     "*": {
         "mimeType": "image/x-mkcd-f4",
         "dataEncoding": "base64",
