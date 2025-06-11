@@ -18,6 +18,9 @@ sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Food, function (sprite, otherSpri
     sprites.destroy(otherSprite)
 })
 function loadLevel() {
+    sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Food)
     mySprite = sprites.create(assets.image`player`, SpriteKind.Player)
     scene.setBackgroundImage(assets.image`background1`)
     mySprite.setPosition(115, 80)
@@ -47,9 +50,10 @@ function startFight() {
     playerHealth.attachToSprite(mySprite)
     playerHealth.value = 100
     playerHealth.setColor(10, 12)
-    heroHealth = statusbars.create(20, 4, StatusBarKind.Health)
+    heroHealth = statusbars.create(20, 4, StatusBarKind.EnemyHealth)
     heroHealth.attachToSprite(heroSprite)
-    heroHealth.value = heroHealth.value
+    heroHealth.value = heroHP
+    heroHealth.max = heroHP
     inBattle = 1
     controller.moveSprite(mySprite, 50, 0)
 }
@@ -69,7 +73,7 @@ let heroSays: string[] = []
 let playerReply: string[] = []
 let heroSprite: Sprite = null
 heroSprite = null
-let heroHealth2 = 5
+let heroHP = 5
 playerReply = [
     "Good luck.",
     "We'll see about that.",
@@ -89,7 +93,7 @@ game.splash("Press B to use your special ability. A to attack. You are the boss.
 loadLevel()
 game.onUpdate(function () {
     if (lifeSpawned == 1) {
-        if (heroSprite.x == extraLife.x) {
+        if (heroSprite.x > extraLife.x - 5 && heroSprite.x < extraLife.x + 5) {
             heroJump()
         }
     }
@@ -114,15 +118,25 @@ game.onUpdate(function () {
 game.onUpdateInterval(500, function () {
     heroAttack = 1
 })
-controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (heroSprite.x > mySprite.x - 20 || heroSprite.x < mySprite.x + 20) {
         if (inBattle == 1) {
             heroHealth.value -= 20
         }
     }
 })
-game.onUpdateInterval(randint(500,2000), function () {
-    if(inBattle == 1) {
+game.onUpdateInterval(randint(500, 2000), function () {
+    if (inBattle == 1) {
         heroSprite.setVelocity(randint(50, -50), 0)
     }
+})
+statusbars.onZero(StatusBarKind.Health, function (status: StatusBarSprite) {
+    game.gameOver(false)
+})
+statusbars.onZero(StatusBarKind.EnemyHealth, function (status: StatusBarSprite) {
+    loadLevel()
+    heroDamage += 1
+    heroHP += 5
+    info.changeScoreBy(1)
+    inBattle = 0
 })
