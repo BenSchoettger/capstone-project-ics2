@@ -1,11 +1,11 @@
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     if (inBattle == 1) {
         if (mySprite.vy == 0) {
-        	mySprite.vy = -180
+            mySprite.vy = -180
         }
     }
 })
-function heroJump () {
+function heroJump() {
     if (inBattle == 1) {
         if (heroSprite.vy == 0) {
             heroSprite.vy = -220
@@ -17,12 +17,7 @@ sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Food, function (sprite, otherSpri
     extraLife.x = -1000
     sprites.destroy(otherSprite)
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
-    playerHealth.value += heroHealth.value / 5
-    extraLife.x = -1000
-    sprites.destroy(otherSprite)
-})
-function loadLevel () {
+function loadLevel() {
     mySprite = sprites.create(assets.image`player`, SpriteKind.Player)
     scene.setBackgroundImage(assets.image`background1`)
     mySprite.setPosition(115, 80)
@@ -44,7 +39,7 @@ function loadLevel () {
         })
     })
 }
-function startFight () {
+function startFight() {
     mySprite.setPosition(140, 80)
     heroSprite.setPosition(10, 80)
     heroSprite.ay = 800
@@ -58,34 +53,47 @@ function startFight () {
     inBattle = 1
     controller.moveSprite(mySprite, 50, 0)
 }
-let extraLife: Sprite = null
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    playerHealth.value += heroHealth.value / 5
+    extraLife.x = -1000
+    sprites.destroy(otherSprite)
+})
+let lifeSpawned = 0
 let playerHealth: StatusBarSprite = null
+let extraLife: Sprite = null
+let heroAttack = 0
 let heroHealth: StatusBarSprite = null
 let mySprite: Sprite = null
 let inBattle = 0
-let lifeSpawned = 0
 let heroSays: string[] = []
 let playerReply: string[] = []
 let heroSprite: Sprite = null
 heroSprite = null
 let heroHealth2 = 5
 playerReply = [
-"Good luck.",
-"We'll see about that.",
-"I'm not going down easy.",
-"You are nothing.",
-"You're in for it now."
+    "Good luck.",
+    "We'll see about that.",
+    "I'm not going down easy.",
+    "You are nothing.",
+    "You're in for it now."
 ]
 heroSays = [
-"I have come to defeat you.",
-"You are going down.",
-"I'll beat you this time.",
-"Your reign has come to an end.",
-"You shall perish in this battle."
+    "I have come to defeat you.",
+    "You are going down.",
+    "I'll beat you this time.",
+    "Your reign has come to an end.",
+    "You shall perish in this battle."
 ]
 let heroDamage = 1
 game.splash("Press B to use your special ability. A to attack. You are the boss. (the knight)")
 loadLevel()
+game.onUpdate(function () {
+    if (lifeSpawned == 1) {
+        if (heroSprite.x == extraLife.x) {
+            heroJump()
+        }
+    }
+})
 game.onUpdateInterval(10000, function () {
     if (inBattle == 1) {
         extraLife = sprites.create(assets.image`life`, SpriteKind.Food)
@@ -93,10 +101,28 @@ game.onUpdateInterval(10000, function () {
         lifeSpawned = 1
     }
 })
-game.onUpdate(function() {
-    if (lifeSpawned == 1) {
-        if (heroSprite.x == extraLife.x) {
-            heroJump()
+game.onUpdate(function () {
+    if (inBattle == 1) {
+        if (heroSprite.x > mySprite.x - 20 && heroSprite.x < mySprite.x + 20) {
+            if (heroAttack == 1) {
+                playerHealth.value -= heroDamage
+                heroAttack = 0
+            }
         }
+    }
+})
+game.onUpdateInterval(500, function () {
+    heroAttack = 1
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
+    if (heroSprite.x > mySprite.x - 20 || heroSprite.x < mySprite.x + 20) {
+        if (inBattle == 1) {
+            heroHealth.value -= 20
+        }
+    }
+})
+game.onUpdateInterval(randint(500,2000), function () {
+    if(inBattle == 1) {
+        heroSprite.setVelocity(randint(50, -50), 0)
     }
 })
