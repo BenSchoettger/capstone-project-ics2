@@ -6,14 +6,20 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 function heroJump () {
-	
+    if (inBattle == 1) {
+        if (heroSprite.vy == 0) {
+            heroSprite.vy = -220
+        }
+    }
 }
 sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Food, function (sprite, otherSprite) {
     heroHealth.value += heroHealth.value / 5
+    extraLife.x = -1000
     sprites.destroy(otherSprite)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     playerHealth.value += heroHealth.value / 5
+    extraLife.x = -1000
     sprites.destroy(otherSprite)
 })
 function loadLevel () {
@@ -41,6 +47,7 @@ function loadLevel () {
 function startFight () {
     mySprite.setPosition(140, 80)
     heroSprite.setPosition(10, 80)
+    heroSprite.ay = 800
     playerHealth = statusbars.create(20, 4, StatusBarKind.Health)
     playerHealth.attachToSprite(mySprite)
     playerHealth.value = 100
@@ -56,6 +63,7 @@ let playerHealth: StatusBarSprite = null
 let heroHealth: StatusBarSprite = null
 let mySprite: Sprite = null
 let inBattle = 0
+let lifeSpawned = 0
 let heroSays: string[] = []
 let playerReply: string[] = []
 let heroSprite: Sprite = null
@@ -82,5 +90,13 @@ game.onUpdateInterval(10000, function () {
     if (inBattle == 1) {
         extraLife = sprites.create(assets.image`life`, SpriteKind.Food)
         extraLife.setPosition(randint(10, 150), 50)
+        lifeSpawned = 1
+    }
+})
+game.onUpdate(function() {
+    if (lifeSpawned == 1) {
+        if (heroSprite.x == extraLife.x) {
+            heroJump()
+        }
     }
 })
